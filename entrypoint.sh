@@ -9,10 +9,9 @@
 echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin docker.pkg.github.com
 
 # Set Local Variables
-shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-6)
-timestamp=`date +%Y%m%d%H%M%S`
+shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
 BASE_NAME="docker.pkg.github.com/${GITHUB_REPOSITORY}/${INPUT_IMAGE_NAME}"
-SHA_NAME="${BASE_NAME}:${timestamp}${shortSHA}"
+SHA_NAME="${BASE_NAME}:${shortSHA}"
 
 # Build The Container
 docker build -t ${SHA_NAME} -t ${BASE_NAME} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
