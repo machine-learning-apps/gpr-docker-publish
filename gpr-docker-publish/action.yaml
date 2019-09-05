@@ -1,0 +1,32 @@
+name: 'gpr-docker-publish'
+description: Publish a Docker image to GitHub Package Registry
+author: Hamel Husain
+inputs:
+  password:
+    description: Your GitHub password corresponding to write access to the repo where this action is called.
+    required: true
+  username:
+    description: Your GitHub password corresponding to write access to the repo where this action is called.
+    require: true
+  image_name:
+    description: name of the image.  Example - myContainer
+    require: true
+  build_context:
+    description: the path in your repo that will serve as the build context
+    require: true
+    default: './'
+  dockerfile_path:
+    description: the full path (including the filename) to the dockerfile that you want to build
+    require: true
+    default: ./Dockerfile
+outputs:
+  IMAGE_SHA_NAME:
+    description: name of the Docker Image including the tag
+  IMAGE_URL:
+    description: the URL where you can view the hosted image on GitHub. 
+branding:
+  color: 'purple'
+  icon: 'layers'
+runs:
+  using: 'docker'
+  image: './gpr-docker-publish/Dockerfile'
