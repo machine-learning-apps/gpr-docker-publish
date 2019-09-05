@@ -2,11 +2,11 @@
 
 ### Background On The GitHub Package Registry (GPR):
 
-From [the docs]((https://help.github.com/en/articles/configuring-docker-for-use-with-github-package-registry)):
+From [the docs](https://help.github.com/en/articles/configuring-docker-for-use-with-github-package-registry):
 
 The GitHub Package Registry allows you to develop your code and host your packages in one place.  GitHub uses the README in your repository to generate the package's description, and you can edit it to reflect details about the package or installation process. GitHub adds metadata for each package version that includes links to the author, repository, commit SHA, version tags, and date.
 
-[The docs](https://help.github.com/en/articles/configuring-docker-for-use-with-github-package-registry) also contain relevant such as how to authenticate and naming conventions.  Some noteable items about GPR:
+[The docs](https://help.github.com/en/articles/configuring-docker-for-use-with-github-package-registry) also contain relevant such as how to authenticate and naming conventions.  Some noteable items about publishing Docker Images on GPR:
 
 - Docker Images are tied to a repository.  
 - All images are named with the following nomenclature:
