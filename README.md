@@ -47,7 +47,7 @@ jobs:
      #This Action Emits 2 Variables, IMAGE_SHA_NAME and IMAGE_URL 
      #which you can reference in subsequent steps
     - name: Publish Docker Image to GPR
-      uses: machine-learning-apps/actions/gpr-docker-publish@master
+      uses: machine-learning-apps/gpr-docker-publish@master
       id: docker
       with:
         USERNAME: ${{ secrets.DOCKER_USERNAME }}
