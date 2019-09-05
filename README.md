@@ -69,11 +69,11 @@ jobs:
 
 ### Mandatory Arguments
 
-1. `image_name` is the name of the image you would like to push  
-2. `username` the login username, most likely your github handle.  This username must have write access to the repo where the action is called.
-3. `password` Your GitHub password that has write access to the repo where this action is called.
-4. `build_context`: The directory for the build context.  See these [docs](https://docs.docker.com/engine/reference/commandline/build/) for more information on the definition of build context.
-5. `dockerfile_path`: The full path (including the filename) relative to the root of the repository that contains the Dockerfile that specifies your build.
+1. `USERNAME` the login username, most likely your github handle.  This username must have write access to the repo where the action is called.
+2. `PASSWORD` Your GitHub password that has write access to the repo where this action is called.
+3. `IMAGE_NAME` is the name of the image you would like to push  
+4. `DOCKERFILE_PATH`: The full path (including the filename) relative to the root of the repository that contains the Dockerfile that specifies your build.
+5. `BUILD_CONTEXT`: The directory for the build context.  See these [docs](https://docs.docker.com/engine/reference/commandline/build/) for more information on the definition of build context.
 
 
 
