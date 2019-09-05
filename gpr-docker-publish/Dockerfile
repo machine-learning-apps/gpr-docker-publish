@@ -5,9 +5,9 @@ RUN apk update \
   && apk upgrade \
   && apk add --no-cache git
 
-RUN ls
-
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+RUN ls
 
 ENTRYPOINT ["/entrypoint.sh"]
