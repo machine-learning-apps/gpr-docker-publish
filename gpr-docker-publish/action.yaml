@@ -29,4 +29,4 @@ branding:
   icon: 'layers'
 runs:
   using: 'docker'
-  image: './gpr-docker-publish/Dockerfile'
+  image: 'gpr-docker-publish/Dockerfile'
