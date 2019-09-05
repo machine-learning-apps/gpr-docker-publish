@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/sh
 
 #Publish Docker Container To GitHub Package Registry
 ####################################################
