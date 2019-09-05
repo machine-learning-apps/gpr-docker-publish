@@ -8,6 +8,4 @@ RUN apk update \
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-RUN ls
-
 ENTRYPOINT ["/entrypoint.sh"]
