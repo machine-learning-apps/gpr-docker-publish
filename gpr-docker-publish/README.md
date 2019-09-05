@@ -81,7 +81,7 @@ jobs:
 
 You can reference the outputs of an action using [expression syntax](https://help.github.com/en/articles/contexts-and-expression-syntax-for-github-actions), as illustrated in the Example Pipeline above.
 
-1. `IMAGE_SHA_NAME`: This is the `{Image_Name}:{timestamp}${shortSHA}` as described above.
+1. `IMAGE_SHA_NAME`: This is the `{Image_Name}:{timestamp}{shortSHA}` as described above.
 2. `IMAGE_URL`: This is the URL on GitHub where you can view your hosted Docker images.  This will always be located at `https://github.com/{OWNER}/{REPOSITORY}/packages` in reference to the repository where the action was called.
 
 These outputs are merely provided as convenience incase you want to use these values in subsequent steps.
