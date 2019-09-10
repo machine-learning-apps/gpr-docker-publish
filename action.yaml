@@ -19,6 +19,10 @@ inputs:
     description: the full path (including the filename) to the dockerfile that you want to build
     require: true
     default: ./Dockerfile
+  cache:
+    description: attempt to use last image as the cache
+    require: false
+    default: false
 outputs:
   IMAGE_SHA_NAME:
     description: name of the Docker Image including the tag

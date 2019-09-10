@@ -74,7 +74,9 @@ jobs:
 4. `DOCKERFILE_PATH`: The full path (including the filename) relative to the root of the repository that contains the Dockerfile that specifies your build.
 5. `BUILD_CONTEXT`: The directory for the build context.  See these [docs](https://docs.docker.com/engine/reference/commandline/build/) for more information on the definition of build context.
 
+## Optional Arguments
 
+1. `cache`: if value is `true`, attempts to use the last pushed image as a cache.  Default value is `false`.
 
 ## Outputs
 
