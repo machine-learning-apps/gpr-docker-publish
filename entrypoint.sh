@@ -18,6 +18,7 @@ BUILDPARAMS=""
 if [ "${INPUT_CACHE}" == "true" ]; then
    # try to pull container if exists
    if docker pull ${BASE_NAME} 2>/dev/null; then
+      echo "Attempting to use ${BASE_NAME} as build cache."
       BUILDPARAMS=" --cache-from ${BASE_NAME}"
    fi
 fi
