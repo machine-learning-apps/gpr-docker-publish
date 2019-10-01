@@ -6,6 +6,33 @@
 # exit when any command fails
 set -e
 
+#check inputs
+if [[ -z "$INPUT_USERNAME" ]]; then
+	echo "Set the USERNAME input."
+	exit 1
+fi
+
+if [[ -z "$INPUT_PASSWORD" ]]; then
+	echo "Set the PASSWORD input."
+	exit 1
+fi
+
+if [[ -z "$INPUT_IMAGE_NAME" ]]; then
+	echo "Set the IMAGE_NAME input."
+	exit 1
+fi
+
+if [[ -z "$INPUT_DOCKERFILE_PATH" ]]; then
+	echo "Set the DOCKERFILE_PATH input."
+	exit 1
+fi
+
+if [[ -z "$INPUT_BUILD_CONTEXT" ]]; then
+	echo "Set the BUILD_CONTEXT input."
+	exit 1
+fi
+
+
 # The following environment variables will be provided by the environment automatically: GITHUB_REPOSITORY, GITHUB_SHA
 
 # send credentials through stdin (it is more secure)
