@@ -3,6 +3,9 @@
 #Publish Docker Container To GitHub Package Registry
 ####################################################
 
+# exit when any command fails
+set -e
+
 # The following environment variables will be provided by the environment automatically: GITHUB_REPOSITORY, GITHUB_SHA
 
 # send credentials through stdin (it is more secure)
