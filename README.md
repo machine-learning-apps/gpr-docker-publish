@@ -24,7 +24,7 @@ This Action will automatically tag each image as follows:
 
 Where:
 - `Image_Name` is provided by the user as an input.
-- `shortSHA` is the first 12 characters of the GitHub SHA that triggered the action.
+- `shortSHA` is either the first 12 characters of the GitHub commit SHA or the value of IMAGE_TAG env variable
 
 ## Usage
 
@@ -77,6 +77,7 @@ jobs:
 ## Optional Inputs
 
 1. `cache`: if value is `true`, attempts to use the last pushed image as a cache.  Default value is `false`.
+2. `IMAGE_TAG`: if value is set, use provided value.  Default value is the first 12 characters of the GitHub SHA that triggered the action.
 
 ## Outputs
 

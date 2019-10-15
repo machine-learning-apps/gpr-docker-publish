@@ -32,6 +32,11 @@ if [[ -z "$INPUT_BUILD_CONTEXT" ]]; then
 	exit 1
 fi
 
+if [[ -z "$INPUT_IMAGE_TAG" ]]; then
+	shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
+elif
+	shortSHA=$INPUT_IMAGE_TAG
+fi
 
 # The following environment variables will be provided by the environment automatically: GITHUB_REPOSITORY, GITHUB_SHA
 
@@ -39,7 +44,6 @@ fi
 echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin docker.pkg.github.com
 
 # Set Local Variables
-shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
 BASE_NAME="docker.pkg.github.com/${GITHUB_REPOSITORY}/${INPUT_IMAGE_NAME}"
 SHA_NAME="${BASE_NAME}:${shortSHA}"
 
