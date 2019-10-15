@@ -34,7 +34,7 @@ fi
 
 if [[ -z "$INPUT_IMAGE_TAG" ]]; then
 	shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
-elif
+else
 	shortSHA=$INPUT_IMAGE_TAG
 fi
 
