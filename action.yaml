@@ -6,7 +6,7 @@ inputs:
     description: Your GitHub password corresponding to write access to the repo where this action is called.
     required: true
   username:
-    description: Your GitHub password corresponding to write access to the repo where this action is called.
+    description: Your GitHub username corresponding to write access to the repo where this action is called.
     require: true
   image_name:
     description: name of the image.  Example - myContainer
