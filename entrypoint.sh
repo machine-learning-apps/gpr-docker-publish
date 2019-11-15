@@ -7,16 +7,6 @@
 set -e
 
 #check inputs
-if [[ -z "$INPUT_USERNAME" ]]; then
-	echo "Set the USERNAME input."
-	exit 1
-fi
-
-if [[ -z "$INPUT_PASSWORD" ]]; then
-	echo "Set the PASSWORD input."
-	exit 1
-fi
-
 if [[ -z "$INPUT_IMAGE_NAME" ]]; then
 	echo "Set the IMAGE_NAME input."
 	exit 1
@@ -36,7 +26,8 @@ fi
 # The following environment variables will be provided by the environment automatically: GITHUB_REPOSITORY, GITHUB_SHA
 
 # send credentials through stdin (it is more secure)
-echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin docker.pkg.github.com
+user=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" https://api.github.com/user | jq -r .login)
+echo ${GITHUB_TOKEN} | docker login -u ${user} --password-stdin docker.pkg.github.com
 
 # Set Local Variables
 shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
