@@ -47,6 +47,15 @@ echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin dock
 BASE_NAME="docker.pkg.github.com/${GITHUB_REPOSITORY}/${INPUT_IMAGE_NAME}"
 SHA_NAME="${BASE_NAME}:${IMAGE_TAG}"
 
+# Build additional tags based on the GIT Tags pointing to the current commit
+ADDITIONAL_TAGS=
+for git_tag in $(git tag -l --points-at HEAD)
+do
+  echo "Processing ${git_tag}"
+  ADDITIONAL_TAGS="${ADDITIONAL_TAGS} -t ${BASE_NAME}:${git_tag}"
+done
+echo "following additional tags will be created: ${ADDITIONAL_TAGS}"
+
 # Add Arguments For Caching
 BUILDPARAMS=""
 if [ "${INPUT_CACHE}" == "true" ]; then
@@ -58,7 +67,7 @@ if [ "${INPUT_CACHE}" == "true" ]; then
 fi
 
 # Build The Container
-docker build $BUILDPARAMS -t ${SHA_NAME} -t ${BASE_NAME} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
+docker build $BUILDPARAMS -t ${SHA_NAME} -t ${BASE_NAME}${ADDITIONAL_TAGS} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
 
 # Push two versions, with and without the SHA
 docker push ${BASE_NAME}

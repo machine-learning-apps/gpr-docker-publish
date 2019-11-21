@@ -1,0 +1,22 @@
+name: Test Docker Image Creation
+
+on: [push]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Build and Publish Docker image
+        uses: saubermacherag/gpr-docker-publish@master
+        with:
+          USERNAME: x-access-token
+          PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          IMAGE_NAME: 'gpr-docker-publish-test'
+          IMAGE_TAG: 'v0.0'
+          DOCKERFILE_PATH: '.github/docker/Dockerfile'
+          BUILD_CONTEXT: './'

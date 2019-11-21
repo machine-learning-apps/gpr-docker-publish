@@ -10,19 +10,22 @@ inputs:
     require: true
   image_name:
     description: name of the image.  Example - myContainer
-    require: true
+    required: true
   build_context:
     description: the path in your repo that will serve as the build context
-    require: true
+    required: true
     default: './'
   dockerfile_path:
     description: the full path (including the filename) to the dockerfile that you want to build
-    require: true
+    required: true
     default: ./Dockerfile
   cache:
     description: attempt to use last image as the cache
-    require: false
+    required: false
     default: false
+  image_tag:
+    description: Optional input to set a tag name instead of a hash.
+    required: false
 outputs:
   IMAGE_SHA_NAME:
     description: name of the Docker Image including the tag
