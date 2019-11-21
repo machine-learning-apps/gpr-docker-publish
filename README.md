@@ -59,6 +59,17 @@ jobs:
         DOCKERFILE_PATH: 'argo/gpu.Dockerfile'
         BUILD_CONTEXT: 'argo/'
 
+    #To access another docker registry like dockerhub you'll have to add `DOCKERHUB_UERNAME` and `DOCKERHUB_PAT` in github secrets.
+    - name: Build and Publish Docker image to Dockerhub instead of GPR
+      uses: saubermacherag/gpr-docker-publish@master
+      with:
+        USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        PASSWORD: ${{ secrets.DOCKERHUB_PAT }}
+        IMAGE_TAG: 'v0.0'
+        DOCKERFILE_PATH: '.github/docker/Dockerfile'
+        BUILD_CONTEXT: './'
+        DOCKERHUB_REPOSITORY: 'pinkrobin/gpr-docker-publish-example'
+
     # This second step is illustrative and shows how to reference the 
     # output variables.  This is completely optional.
     - name: Show outputs of pervious step

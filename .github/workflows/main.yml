@@ -20,7 +20,7 @@ jobs:
           IMAGE_TAG: 'v0.0'
           DOCKERFILE_PATH: '.github/docker/Dockerfile'
           BUILD_CONTEXT: './'
-      - name: Build and Publish Docker image in GPR
+      - name: Build and Publish Docker image to Dockerhub instead of GPR
         uses: saubermacherag/gpr-docker-publish@master
         with:
           USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -28,4 +28,4 @@ jobs:
           IMAGE_TAG: 'v0.0'
           DOCKERFILE_PATH: '.github/docker/Dockerfile'
           BUILD_CONTEXT: './'
-          DOCKERHUB_REPOSITORY: 'pinkrobin/docker-ansible-alpine'
+          DOCKERHUB_REPOSITORY: 'pinkrobin/gpr-docker-publish-example'
