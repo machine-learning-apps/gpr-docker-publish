@@ -26,6 +26,9 @@ Where:
 - `Image_Name` is provided by the user as an input.
 - `IMAGE_TAG` is either the first 12 characters of the GitHub commit SHA or the value of INPUT_IMAGE_TAG env variable
 
+Additionally it will use Git Tags pointing to the HEAD commit to create docker tags accordingly. 
+E.g. Git Tag v1.1 will result in an additional docker tag v1.1.
+
 ## Usage
 
 
@@ -52,6 +55,7 @@ jobs:
         USERNAME: ${{ secrets.DOCKER_USERNAME }}
         PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         IMAGE_NAME: 'test-docker-action'
+        IMAGE_TAG: 'v0.0'
         DOCKERFILE_PATH: 'argo/gpu.Dockerfile'
         BUILD_CONTEXT: 'argo/'
 
@@ -68,8 +72,8 @@ jobs:
 
 ### Mandatory Inputs
 
-1. `USERNAME` the login username, most likely your github handle.  This username must have write access to the repo where the action is called.
-2. `PASSWORD` Your GitHub password that has write access to the repo where this action is called.
+1. `USERNAME` the login username, most likely your github handle.  This username must have write access to the repo where the action is called. `x-access-token` should suffice.
+2. `PASSWORD` Your GitHub password that has write access to the repo where this action is called. `${{ secrets.GITHUB_TOKEN }}` should suffice.
 3. `IMAGE_NAME` is the name of the image you would like to push  
 4. `DOCKERFILE_PATH`: The full path (including the filename) relative to the root of the repository that contains the Dockerfile that specifies your build.
 5. `BUILD_CONTEXT`: The directory for the build context.  See these [docs](https://docs.docker.com/engine/reference/commandline/build/) for more information on the definition of build context.
