@@ -17,8 +17,8 @@ if [[ -z "$INPUT_PASSWORD" ]]; then
 	exit 1
 fi
 
-if [[ -z "$INPUT_IMAGE_NAME" ]]; then
-	echo "Set the IMAGE_NAME input."
+if [[ -z "$INPUT_IMAGE_NAME" && -z "$INPUT_DOCKERHUB_REPOSITORY" ]]; then
+	echo "Set either the IMAGE_NAME or a valid DOCKERHUB_REPOSITORY."
 	exit 1
 fi
 
@@ -40,11 +40,17 @@ fi
 
 # The following environment variables will be provided by the environment automatically: GITHUB_REPOSITORY, GITHUB_SHA
 
+if [[ -z "$INPUT_DOCKERHUB_REPOSITORY" ]]; then
+  DOCKER_REGISTRY=docker.pkg.github.com
+  BASE_NAME="${DOCKER_REGISTRY}/${GITHUB_REPOSITORY}/${INPUT_IMAGE_NAME}"
+else
+  BASE_NAME="${INPUT_DOCKERHUB_REPOSITORY}"
+fi
+
 # send credentials through stdin (it is more secure)
-echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin docker.pkg.github.com
+echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin ${DOCKER_REGISTRY}
 
 # Set Local Variables
-BASE_NAME="docker.pkg.github.com/${GITHUB_REPOSITORY}/${INPUT_IMAGE_NAME}"
 SHA_NAME="${BASE_NAME}:${IMAGE_TAG}"
 
 # Build additional tags based on the GIT Tags pointing to the current commit
@@ -74,4 +80,8 @@ docker push ${BASE_NAME}
 docker push ${SHA_NAME}
 
 echo "::set-output name=IMAGE_SHA_NAME::${SHA_NAME}"
-echo "::set-output name=IMAGE_URL::https://github.com/${GITHUB_REPOSITORY}/packages"
+if [[ -z "$INPUT_DOCKERHUB_REPOSITORY" ]]; then
+  echo "::set-output name=IMAGE_URL::https://github.com/${GITHUB_REPOSITORY}/packages"
+else
+  echo "::set-output name=IMAGE_URL::https://hub.docker.com/r/${INPUT_DOCKERHUB_REPOSITORY}"
+fi

@@ -82,6 +82,8 @@ jobs:
 
 1. `cache`: if value is `true`, attempts to use the last pushed image as a cache.  Default value is `false`.
 2. `IMAGE_TAG`: if value is set, use provided value.  Default value is the first 12 characters of the GitHub SHA that triggered the action.
+3. `DOCKERHUB_REPOSITORY`: if value is set, you don't need to set `IMAGE_NAME`. It will push the image to the given dockerhub repository instead of using GPR.
+Why? Because Github Actions don't support downloading images without authentication at the moment. See: https://github.community/t5/GitHub-Actions/docker-pull-from-public-GitHub-Package-Registry-fail-with-quot/m-p/32782
 
 ## Outputs
 
