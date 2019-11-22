@@ -45,7 +45,13 @@ if [ "${INPUT_CACHE}" == "true" ]; then
 fi
 
 # Build The Container
-docker build $BUILDPARAMS -t ${SHA_NAME} -t ${BASE_NAME} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
+_EXTRA_TAGS=""
+if [[ -n "$IMAGE_TAG" ]]; then
+  _EXTRA_TAGS="-t ${BASE_NAME}:${IMAGE_TAG}"
+fi
+
+
+docker build $BUILDPARAMS -t ${SHA_NAME} -t ${BASE_NAME} ${_EXTRA_TAGS} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
 
 # Push two versions, with and without the SHA
 docker push ${BASE_NAME}
