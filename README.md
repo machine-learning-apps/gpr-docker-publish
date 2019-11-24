@@ -56,6 +56,8 @@ jobs:
         TAG: 'my-optional-tag-name'
         DOCKERFILE_PATH: 'argo/gpu.Dockerfile'
         BUILD_CONTEXT: 'argo/'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # This second step is illustrative and shows how to reference the 
     # output variables.  This is completely optional.
