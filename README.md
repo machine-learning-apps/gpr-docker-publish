@@ -50,6 +50,7 @@ jobs:
       id: docker
       with:
         IMAGE_NAME: 'test-docker-action'
+        TAG: 'my-optional-tag-name'
         DOCKERFILE_PATH: 'argo/gpu.Dockerfile'
         BUILD_CONTEXT: 'argo/'
 
@@ -66,13 +67,14 @@ jobs:
 
 ### Mandatory Inputs
 
-3. `IMAGE_NAME` is the name of the image you would like to push  
-4. `DOCKERFILE_PATH`: The full path (including the filename) relative to the root of the repository that contains the Dockerfile that specifies your build.
-5. `BUILD_CONTEXT`: The directory for the build context.  See these [docs](https://docs.docker.com/engine/reference/commandline/build/) for more information on the definition of build context.
+1. `IMAGE_NAME` is the name of the image you would like to push  
+2. `DOCKERFILE_PATH`: The full path (including the filename) relative to the root of the repository that contains the Dockerfile that specifies your build.
+3. `BUILD_CONTEXT`: The directory for the build context.  See these [docs](https://docs.docker.com/engine/reference/commandline/build/) for more information on the definition of build context.
 
 ## Optional Inputs
 
 1. `cache`: if value is `true`, attempts to use the last pushed image as a cache.  Default value is `false`.
+2. `tag`: a custom tag you wish to assign to the image.
 
 ## Outputs
 

@@ -34,6 +34,9 @@ shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
 BASE_NAME="docker.pkg.github.com/${GITHUB_REPOSITORY}/${INPUT_IMAGE_NAME}"
 SHA_NAME="${BASE_NAME}:${shortSHA}"
 
+if [ "${INPUT_CUSTOM_TAG}" ]; then
+fi
+
 # Add Arguments For Caching
 BUILDPARAMS=""
 if [ "${INPUT_CACHE}" == "true" ]; then
@@ -45,13 +48,14 @@ if [ "${INPUT_CACHE}" == "true" ]; then
 fi
 
 # Build The Container
-_EXTRA_TAGS=""
-if [[ -n "$IMAGE_TAG" ]]; then
-  _EXTRA_TAGS="-t ${BASE_NAME}:${IMAGE_TAG}"
+if [ "${INPUT_TAG}" ]; then
+   CUSTOM_TAG="${BASE_NAME}:${INPUT_TAG}"
+   docker build $BUILDPARAMS -t ${SHA_NAME} -t ${BASE_NAME} -t ${CUSTOM_TAG} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
+   docker push ${CUSTOM_TAG}
+else
+   docker build $BUILDPARAMS -t ${SHA_NAME} -t ${BASE_NAME} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
 fi
 
-
-docker build $BUILDPARAMS -t ${SHA_NAME} -t ${BASE_NAME} ${_EXTRA_TAGS} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
 
 # Push two versions, with and without the SHA
 docker push ${BASE_NAME}
