@@ -77,6 +77,7 @@ jobs:
 ## Optional Inputs
 
 1. `cache`: if value is `true`, attempts to use the last pushed image as a cache.  Default value is `false`.
+2. `tag`: a custom tag you wish to assign to the image.
 
 ## Outputs
 
