@@ -32,7 +32,9 @@ fi
 
 # send credentials through stdin (it is more secure)
 user=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" https://api.github.com/user | jq -r .login)
-echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com -u "${user}" --password-stdin 
+# lowercase the username
+username="$(echo ${user} | tr "[:upper:]" "[:lower:]")"
+echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com -u "${username}" --password-stdin 
 
 # Set Local Variables
 shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
