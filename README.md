@@ -61,7 +61,7 @@ jobs:
 
     # This second step is illustrative and shows how to reference the 
     # output variables.  This is completely optional.
-    - name: Show outputs of pervious step
+    - name: Show outputs of previous step
       run: |
         echo "The name:tag of the Docker Image is: $VAR1"
         echo "The docker image is hosted at $VAR2"
