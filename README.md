@@ -1,4 +1,4 @@
-![Actions Status](https://github.com/machine-learning-apps/gpr-docker-publish/workflows/Tests/badge.svg)
+![Actions Status](https://github.com/machine-learning-apps/gpr-docker-publish/workflows/Tests/badge.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/machine-learning-apps/gpr-docker-publish/blob/master/LICENSE)
 
 
 ## This Action Publishes Docker Images to the [GitHub Package Registry](https://github.com/features/package-registry).  
