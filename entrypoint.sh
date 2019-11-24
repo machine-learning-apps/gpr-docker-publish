@@ -7,6 +7,11 @@
 set -e
 
 #check inputs
+if [[ -z "$GITHUB_TOKEN" ]]; then
+	echo "You must supply the environment variable GITHUB_TOKEN."
+	exit 1
+fi
+
 if [[ -z "$INPUT_IMAGE_NAME" ]]; then
 	echo "Set the IMAGE_NAME input."
 	exit 1
