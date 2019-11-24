@@ -16,3 +16,5 @@ jobs:
         TAG: 'my-optional-tag-name'
         DOCKERFILE_PATH: 'Dockerfile'
         BUILD_CONTEXT: '.'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
