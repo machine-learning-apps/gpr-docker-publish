@@ -38,7 +38,8 @@ echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com -u "${username}" --pas
 
 # Set Local Variables
 shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
-BASE_NAME="docker.pkg.github.com/${GITHUB_REPOSITORY}/${INPUT_IMAGE_NAME}"
+tag="$(echo ${GITHUB_REPOSITORY} | tr "[:upper:]" "[:lower:]")"
+BASE_NAME="docker.pkg.github.com/${tag}/${INPUT_IMAGE_NAME}"
 SHA_NAME="${BASE_NAME}:${shortSHA}"
 
 # Add Arguments For Caching
