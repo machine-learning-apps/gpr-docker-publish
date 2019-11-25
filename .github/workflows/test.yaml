@@ -10,7 +10,7 @@ jobs:
       uses: actions/checkout@master
 
     - name: Publish Docker Image to GPR
-      uses: JJ/gpr-docker-publish@master
+      uses: machine-learning-apps/gpr-docker-publish@master
       with:
         IMAGE_NAME: 'test-docker-action-v2'
         TAG: 'my-optional-tag-name'
