@@ -14,18 +14,16 @@ jobs:
       - name: Build and Publish Docker image in GPR
         uses: saubermacherag/gpr-docker-publish@master
         with:
-          USERNAME: x-access-token
-          PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           IMAGE_NAME: 'gpr-docker-publish-test'
-          IMAGE_TAG: 'v0.0'
+          TAG: 'v0.0'
           DOCKERFILE_PATH: '.github/docker/Dockerfile'
-          BUILD_CONTEXT: './'
+          BUILD_CONTEXT: '.'
       - name: Build and Publish Docker image to Dockerhub instead of GPR
         uses: saubermacherag/gpr-docker-publish@master
         with:
-          USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          PASSWORD: ${{ secrets.DOCKERHUB_PAT }}
-          IMAGE_TAG: 'v0.0'
+          TAG: 'v0.0'
           DOCKERFILE_PATH: '.github/docker/Dockerfile'
-          BUILD_CONTEXT: './'
+          BUILD_CONTEXT: '.'
           DOCKERHUB_REPOSITORY: 'pinkrobin/gpr-docker-publish-example'
+        env:
+          GITHUB_TOKEN: ${{ secrets.DOCKERHUB_PAT }}

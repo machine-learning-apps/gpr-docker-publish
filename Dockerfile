@@ -7,7 +7,7 @@ LABEL "com.github.actions.color"="purple"
 
 RUN apk update \
   && apk upgrade \
-  && apk add --no-cache git
+  && apk add --no-cache git curl jq
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

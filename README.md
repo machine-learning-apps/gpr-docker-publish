@@ -1,3 +1,6 @@
+![Actions Status](https://github.com/machine-learning-apps/gpr-docker-publish/workflows/Tests/badge.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/machine-learning-apps/gpr-docker-publish/blob/master/LICENSE)
+
+
 ## This Action Publishes Docker Images to the [GitHub Package Registry](https://github.com/features/package-registry).  
 
 ### Background On The GitHub Package Registry (GPR):
@@ -52,12 +55,12 @@ jobs:
       uses: machine-learning-apps/gpr-docker-publish@master
       id: docker
       with:
-        USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         IMAGE_NAME: 'test-docker-action'
-        IMAGE_TAG: 'v0.0'
+        TAG: 'my-optional-tag-name'
         DOCKERFILE_PATH: 'argo/gpu.Dockerfile'
         BUILD_CONTEXT: 'argo/'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     #To access another docker registry like dockerhub you'll have to add `DOCKERHUB_UERNAME` and `DOCKERHUB_PAT` in github secrets.
     - name: Build and Publish Docker image to Dockerhub instead of GPR
@@ -83,16 +86,14 @@ jobs:
 
 ### Mandatory Inputs
 
-1. `USERNAME` the login username, most likely your github handle.  This username must have write access to the repo where the action is called. `x-access-token` should suffice.
-2. `PASSWORD` Your GitHub password that has write access to the repo where this action is called. `${{ secrets.GITHUB_TOKEN }}` should suffice.
-3. `IMAGE_NAME` is the name of the image you would like to push  
-4. `DOCKERFILE_PATH`: The full path (including the filename) relative to the root of the repository that contains the Dockerfile that specifies your build.
-5. `BUILD_CONTEXT`: The directory for the build context.  See these [docs](https://docs.docker.com/engine/reference/commandline/build/) for more information on the definition of build context.
+1. `IMAGE_NAME` is the name of the image you would like to push  
+2. `DOCKERFILE_PATH`: The full path (including the filename) relative to the root of the repository that contains the Dockerfile that specifies your build.
+3. `BUILD_CONTEXT`: The directory for the build context.  See these [docs](https://docs.docker.com/engine/reference/commandline/build/) for more information on the definition of build context.
 
 ## Optional Inputs
 
 1. `cache`: if value is `true`, attempts to use the last pushed image as a cache.  Default value is `false`.
-2. `IMAGE_TAG`: if value is set, use provided value.  Default value is the first 12 characters of the GitHub SHA that triggered the action.
+2. `tag`: a custom tag you wish to assign to the image.
 3. `DOCKERHUB_REPOSITORY`: if value is set, you don't need to set `IMAGE_NAME`. It will push the image to the given dockerhub repository instead of using GPR.
 Why? Because Github Actions don't support downloading images without authentication at the moment. See: https://github.community/t5/GitHub-Actions/docker-pull-from-public-GitHub-Package-Registry-fail-with-quot/m-p/32782
 

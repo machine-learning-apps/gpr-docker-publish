@@ -7,13 +7,8 @@
 set -e
 
 #check inputs
-if [[ -z "$INPUT_USERNAME" ]]; then
-	echo "Set the USERNAME input."
-	exit 1
-fi
-
-if [[ -z "$INPUT_PASSWORD" ]]; then
-	echo "Set the PASSWORD input."
+if [[ -z "$GITHUB_TOKEN" ]]; then
+	echo "You must supply the environment variable GITHUB_TOKEN."
 	exit 1
 fi
 
@@ -32,11 +27,6 @@ if [[ -z "$INPUT_BUILD_CONTEXT" ]]; then
 	exit 1
 fi
 
-if [[ -z "$INPUT_IMAGE_TAG" ]]; then
-	IMAGE_TAG=$(echo "${GITHUB_SHA}" | cut -c1-12)
-else
-	IMAGE_TAG=$INPUT_IMAGE_TAG
-fi
 
 # The following environment variables will be provided by the environment automatically: GITHUB_REPOSITORY, GITHUB_SHA
 
@@ -48,10 +38,14 @@ else
 fi
 
 # send credentials through stdin (it is more secure)
-echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin ${DOCKER_REGISTRY}
+user=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" https://api.github.com/user | jq -r .login)
+# lowercase the username
+username="$(echo ${user} | tr "[:upper:]" "[:lower:]")"
+echo ${GITHUB_TOKEN} | docker login -u "${username}" --password-stdin ${DOCKER_REGISTRY}
 
 # Set Local Variables
-SHA_NAME="${BASE_NAME}:${IMAGE_TAG}"
+shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
+SHA_NAME="${BASE_NAME}:${shortSHA}"
 
 # Build additional tags based on the GIT Tags pointing to the current commit
 ADDITIONAL_TAGS=
@@ -73,7 +67,14 @@ if [ "${INPUT_CACHE}" == "true" ]; then
 fi
 
 # Build The Container
-docker build $BUILDPARAMS -t ${SHA_NAME} -t ${BASE_NAME}${ADDITIONAL_TAGS} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
+if [ "${INPUT_TAG}" ]; then
+   CUSTOM_TAG="${BASE_NAME}:${INPUT_TAG}"
+   docker build $BUILDPARAMS -t ${SHA_NAME} -t ${BASE_NAME}${ADDITIONAL_TAGS} -t ${CUSTOM_TAG} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
+   docker push ${CUSTOM_TAG}
+else
+   docker build $BUILDPARAMS -t ${SHA_NAME} -t ${BASE_NAME}${ADDITIONAL_TAGS} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
+fi
+
 
 # Push two versions, with and without the SHA
 docker push ${BASE_NAME}
