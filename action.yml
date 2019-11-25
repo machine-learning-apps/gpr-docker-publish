@@ -23,6 +23,9 @@ inputs:
   dockerhub_repository:
     description: Optional input to push image to dockerhub repository instead of GPR.
     required: false
+  dockerhub_username:
+    description: Required if dockerhub_repository set to true.
+    required: false
 outputs:
   IMAGE_SHA_NAME:
     description: name of the Docker Image including the tag

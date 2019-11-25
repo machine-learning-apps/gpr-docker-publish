@@ -7,8 +7,8 @@
 set -e
 
 #check inputs
-if [[ -z "$GITHUB_TOKEN" ]]; then
-	echo "You must supply the environment variable GITHUB_TOKEN."
+if [[ -z "$REGISTRY_TOKEN" ]]; then
+	echo "You must supply the environment variable REGISTRY_TOKEN."
 	exit 1
 fi
 
@@ -33,15 +33,22 @@ fi
 if [[ -z "$INPUT_DOCKERHUB_REPOSITORY" ]]; then
   DOCKER_REGISTRY=docker.pkg.github.com
   BASE_NAME="${DOCKER_REGISTRY}/${GITHUB_REPOSITORY}/${INPUT_IMAGE_NAME}"
+  # send credentials through stdin (it is more secure)
+  user=$(curl -s -H "Authorization: token ${REGISTRY_TOKEN}" https://api.github.com/user | jq -r .login)
+  # lowercase the username
+  username="$(echo ${user} | tr "[:upper:]" "[:lower:]")"
 else
+  if [ -z "$INPUT_DOCKERHUB_USERNAME" ]
+  then
+    echo "If you use Docker Hub as repository please provide your username as DOCKERHUB_USERNAME."
+    exit 1
+  fi
+  username="${INPUT_DOCKERHUB_USERNAME}"
   BASE_NAME="${INPUT_DOCKERHUB_REPOSITORY}"
 fi
 
-# send credentials through stdin (it is more secure)
-user=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" https://api.github.com/user | jq -r .login)
-# lowercase the username
-username="$(echo ${user} | tr "[:upper:]" "[:lower:]")"
-echo ${GITHUB_TOKEN} | docker login -u "${username}" --password-stdin ${DOCKER_REGISTRY}
+
+echo ${REGISTRY_TOKEN} | docker login -u "${username}" --password-stdin ${DOCKER_REGISTRY}
 
 # Set Local Variables
 shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)

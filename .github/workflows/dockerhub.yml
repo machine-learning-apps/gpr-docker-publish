@@ -1,0 +1,22 @@
+name: Test Dockerhub Push
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Copy Repo Files
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Build and Publish Docker image to Dockerhub
+        uses: saubermacherag/gpr-docker-publish@master
+        with:
+          TAG: 'my-optional-tag-name'
+          DOCKERFILE_PATH: '.github/docker/Dockerfile'
+          BUILD_CONTEXT: '.'
+          DOCKERHUB_REPOSITORY: 'pinkrobin/gpr-docker-publish-example'
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        env:
+          REGISTRY_TOKEN: ${{ secrets.DOCKERHUB_PAT }}

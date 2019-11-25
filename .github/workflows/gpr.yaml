@@ -1,4 +1,4 @@
-name: Tests
+name: Test GPR Push
 on: push
 
 jobs:
@@ -7,14 +7,15 @@ jobs:
     steps:
 
     - name: Copy Repo Files
-      uses: actions/checkout@master
-
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
     - name: Publish Docker Image to GPR
-      uses: machine-learning-apps/gpr-docker-publish@master
+      uses: saubermacherag/gpr-docker-publish@master
       with:
         IMAGE_NAME: 'test-docker-action-v2'
         TAG: 'my-optional-tag-name'
         DOCKERFILE_PATH: 'Dockerfile'
         BUILD_CONTEXT: '.'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}

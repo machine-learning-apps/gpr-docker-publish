@@ -60,18 +60,19 @@ jobs:
         DOCKERFILE_PATH: 'argo/gpu.Dockerfile'
         BUILD_CONTEXT: 'argo/'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     #To access another docker registry like dockerhub you'll have to add `DOCKERHUB_UERNAME` and `DOCKERHUB_PAT` in github secrets.
     - name: Build and Publish Docker image to Dockerhub instead of GPR
       uses: saubermacherag/gpr-docker-publish@master
       with:
-        USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        PASSWORD: ${{ secrets.DOCKERHUB_PAT }}
         IMAGE_TAG: 'v0.0'
         DOCKERFILE_PATH: '.github/docker/Dockerfile'
         BUILD_CONTEXT: './'
         DOCKERHUB_REPOSITORY: 'pinkrobin/gpr-docker-publish-example'
+        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      env:
+        REGISTRY_TOKEN: ${{ secrets.DOCKERHUB_PAT }}
 
     # This second step is illustrative and shows how to reference the 
     # output variables.  This is completely optional.
@@ -96,6 +97,7 @@ jobs:
 2. `tag`: a custom tag you wish to assign to the image.
 3. `DOCKERHUB_REPOSITORY`: if value is set, you don't need to set `IMAGE_NAME`. It will push the image to the given dockerhub repository instead of using GPR.
 Why? Because Github Actions don't support downloading images without authentication at the moment. See: https://github.community/t5/GitHub-Actions/docker-pull-from-public-GitHub-Package-Registry-fail-with-quot/m-p/32782
+4. `DOCKERHUB_USERNAME`: required when `DOCKERHUB_REPOSITORY` set to true.
 
 ## Outputs
 
