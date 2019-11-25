@@ -11,7 +11,7 @@ jobs:
         with:
           fetch-depth: 1
       - name: Build and Publish Docker image to Dockerhub
-        uses: saubermacherag/gpr-docker-publish@master
+        uses: ./
         with:
           TAG: 'my-optional-tag-name'
           DOCKERFILE_PATH: '.github/docker/Dockerfile'

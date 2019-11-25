@@ -11,7 +11,7 @@ jobs:
       with:
         fetch-depth: 1
     - name: Publish Docker Image to GPR
-      uses: saubermacherag/gpr-docker-publish@master
+      uses: ./
       with:
         IMAGE_NAME: 'test-docker-action-v2'
         TAG: 'my-optional-tag-name'
