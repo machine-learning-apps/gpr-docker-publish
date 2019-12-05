@@ -23,11 +23,14 @@ The GitHub Package Registry allows you to develop your code and host your packag
 
 This Action will automatically tag each image as follows:
 
-    {Image_Name}:{shortSHA}
+    {Image_Name}:{IMAGE_TAG}
 
 Where:
 - `Image_Name` is provided by the user as an input.
-- `shortSHA` is the first 12 characters of the GitHub SHA that triggered the action.
+- `IMAGE_TAG` is either the first 12 characters of the GitHub commit SHA or the value of INPUT_IMAGE_TAG env variable
+
+Additionally it will use Git Tags pointing to the HEAD commit to create docker tags accordingly. 
+E.g. Git Tag v1.1 will result in an additional docker tag v1.1.
 
 ## Usage
 
@@ -57,7 +60,19 @@ jobs:
         DOCKERFILE_PATH: 'argo/gpu.Dockerfile'
         BUILD_CONTEXT: 'argo/'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    #To access another docker registry like dockerhub you'll have to add `DOCKERHUB_UERNAME` and `DOCKERHUB_PAT` in github secrets.
+    - name: Build and Publish Docker image to Dockerhub instead of GPR
+      uses: saubermacherag/gpr-docker-publish@master
+      with:
+        IMAGE_TAG: 'v0.0'
+        DOCKERFILE_PATH: '.github/docker/Dockerfile'
+        BUILD_CONTEXT: './'
+        DOCKERHUB_REPOSITORY: 'pinkrobin/gpr-docker-publish-example'
+        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      env:
+        REGISTRY_TOKEN: ${{ secrets.DOCKERHUB_PAT }}
 
     # This second step is illustrative and shows how to reference the 
     # output variables.  This is completely optional.
@@ -80,12 +95,15 @@ jobs:
 
 1. `cache`: if value is `true`, attempts to use the last pushed image as a cache.  Default value is `false`.
 2. `tag`: a custom tag you wish to assign to the image.
+3. `DOCKERHUB_REPOSITORY`: if value is set, you don't need to set `IMAGE_NAME`. It will push the image to the given dockerhub repository instead of using GPR.
+Why? Because Github Actions don't support downloading images without authentication at the moment. See: https://github.community/t5/GitHub-Actions/docker-pull-from-public-GitHub-Package-Registry-fail-with-quot/m-p/32782
+4. `DOCKERHUB_USERNAME`: required when `DOCKERHUB_REPOSITORY` set to true.
 
 ## Outputs
 
 You can reference the outputs of an action using [expression syntax](https://help.github.com/en/articles/contexts-and-expression-syntax-for-github-actions), as illustrated in the Example Pipeline above.
 
-1. `IMAGE_SHA_NAME`: This is the `{Image_Name}:{shortSHA}` as described above.
+1. `IMAGE_SHA_NAME`: This is the `{Image_Name}:{IMAGE_TAG}` as described above.
 2. `IMAGE_URL`: This is the URL on GitHub where you can view your hosted Docker images.  This will always be located at `https://github.com/{OWNER}/{REPOSITORY}/packages` in reference to the repository where the action was called.
 
 These outputs are merely provided as convenience incase you want to use these values in subsequent steps.

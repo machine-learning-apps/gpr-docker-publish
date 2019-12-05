@@ -4,22 +4,28 @@ author: Hamel Husain
 inputs:
   image_name:
     description: name of the image.  Example - myContainer
-    require: true
+    required: true
   build_context:
     description: the path in your repo that will serve as the build context
-    require: true
+    required: true
     default: './'
   dockerfile_path:
     description: the full path (including the filename) to the dockerfile that you want to build
-    require: true
+    required: true
     default: ./Dockerfile
   cache:
     description: attempt to use last image as the cache
-    require: false
+    required: false
     default: false
   tag:
-    description: custom tag you want to assign to the image.  
-    require: false
+    description: custom tag you want to assign to the image.
+    required: false
+  dockerhub_repository:
+    description: Optional input to push image to dockerhub repository instead of GPR.
+    required: false
+  dockerhub_username:
+    description: Required if dockerhub_repository set to true.
+    required: false
 outputs:
   IMAGE_SHA_NAME:
     description: name of the Docker Image including the tag
