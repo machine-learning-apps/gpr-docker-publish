@@ -57,6 +57,10 @@ if [ "${INPUT_TAG}" ]; then
    CUSTOM_TAG="${BASE_NAME}:${INPUT_TAG}"
    docker build $BUILDPARAMS -t ${SHA_NAME} -t ${BASE_NAME} -t ${CUSTOM_TAG} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
    docker push ${CUSTOM_TAG}
+elif [ "${INPUT_BRANCH_TAG}" == "true" ]; then
+   CUSTOM_TAG="${BASE_NAME}:${GITHUB_REF##*/}"
+   docker build $BUILDPARAMS -t ${SHA_NAME} -t ${BASE_NAME} -t ${CUSTOM_TAG} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
+   docker push ${CUSTOM_TAG}
 else
    docker build $BUILDPARAMS -t ${SHA_NAME} -t ${BASE_NAME} -f ${INPUT_DOCKERFILE_PATH} ${INPUT_BUILD_CONTEXT}
 fi
