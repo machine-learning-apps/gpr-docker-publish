@@ -80,7 +80,7 @@ jobs:
 
 1. `cache`: if value is `true`, attempts to use the last pushed image as a cache.  Default value is `false`.
 2. `tag`: a custom tag you wish to assign to the image.
-3. `BRANCH_TAG`: if you want to tag the image with the current branch. This is overriden by the `tag` input
+3. `branch_tag`: if value is `true`, will tag the image with the current branch's name.  The default value is `false`.  If a value for the input `tag` is provided, this input is ignored.
 
 ## Outputs
 
