@@ -13,6 +13,10 @@ inputs:
     description: the full path (including the filename) to the dockerfile that you want to build
     require: true
     default: ./Dockerfile
+  branch_tag:
+      description: use branch name as tag
+      require: false
+      default: false
   cache:
     description: attempt to use last image as the cache
     require: false
