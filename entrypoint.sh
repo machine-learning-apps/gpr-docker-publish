@@ -70,5 +70,5 @@ fi
 docker push ${BASE_NAME}
 docker push ${SHA_NAME}
 
-echo "::set-output name=IMAGE_SHA_NAME::${SHA_NAME}"
-echo "::set-output name=IMAGE_URL::https://github.com/${GITHUB_REPOSITORY}/packages"
+echo "IMAGE_SHA_NAME=${SHA_NAME}" >> $GITHUB_OUTPUT
+echo "IMAGE_URL=https://github.com/${GITHUB_REPOSITORY}/packages" >> $GITHUB_OUTPUT
